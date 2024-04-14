@@ -77,18 +77,18 @@ Nest is [MIT licensed](LICENSE).
 First, to install Prisma Client:
 
 ```bash
-$ pnpm install @prisma/client
+$ npm install @prisma/client
 ```
 
 
 To generate Prisma Client code or to re-generate Prisma Client code after changing in file schema.prisma:
 
 ```bash
-$ pnpm prisma generate
+$ npm prisma generate
 ```
 
 To create tables in database or update tables/fields:
 
 ```bash
-$ pnpm prisma db push
+$ npm prisma db push
 ```

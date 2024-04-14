@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model ShopOwner {
+  id          String   @id @default(uuid())
+  username    String   @unique
+  password    String
+  name        String
+  email       String
+  phoneNumber String
+  cccd        String   @unique
+  dayOfBirth  DateTime
+  avatar      String
+  gender      String
+  shop        Shop[]
+  Bill        Bill[]
+}
+
+model Shop {
+  id          String    @id @default(uuid())
+  stt         Int
+  name        String
+  shopOwner   ShopOwner @relation(fields: [shopOwnerId], references: [id])
+  shopOwnerId String
+  products    Product[]
+}
+
+model Product {
+  id           String        @id @default(uuid())
+  name         String
+  description  String
+  price        Int
+  createdDate  DateTime
+  editedDate   DateTime
+  image        String
+  quantity     Int
+  shop         Shop          @relation(fields: [shopId], references: [id], onUpdate: NoAction)
+  shopId       String
+  comments     Comment[]
+  productCarts productCart[]
+  productBills productBill[]
+}
+
+model Customer {
+  id          String    @id @default(uuid())
+  username    String    @unique
+  password    String
+  name        String
+  email       String
+  phoneNumber String
+  cccd        String    @unique
+  dayOfBirth  DateTime
+  avatar      String
+  gender      String
+  comments    Comment[]
+  cart        Cart[]
+  bills       Bill[]
+}
+
+model Cart {
+  id         String        @id @default(uuid())
+  customer   Customer      @relation(fields: [customerId], references: [id])
+  products   productCart[]
+  customerId String
+}
+
+model Comment {
+  id         String    @id @default(uuid())
+  content    String
+  image      String
+  video      String
+  vote       Int
+  product    Product?  @relation(fields: [productId], references: [id])
+  productId  String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+}
+
+model Bill {
+  id                String          @id @default(uuid())
+  billCode          String
+  createdDate       DateTime
+  paymentMethod     String
+  total             Int
+  customer          Customer        @relation(fields: [customerId], references: [id])
+  customerId        String
+  productBill       productBill[]
+  shippingService   ShippingService @relation(fields: [shippingServiceId], references: [id])
+  shippingServiceId String
+  shopOwner         ShopOwner?      @relation(fields: [shopOwnerId], references: [id], onUpdate: NoAction)
+  shopOwnerId       String?
+}
+
+model ShippingService {
+  id     String @id @default(uuid())
+  name   String
+  fee    Int
+  status String
+  bills  Bill[]
+}
+
+model productCart {
+  id        String  @id @default(uuid())
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  productId String
+  cart      Cart?   @relation(fields: [cartId], references: [id])
+  cartId    String?
+}
+
+model productBill {
+  id        String  @id @default(uuid())
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  productId String
+  bill      Bill?   @relation(fields: [billId], references: [id])
+  billId    String?
+}

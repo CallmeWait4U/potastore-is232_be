@@ -1,9 +1,24 @@
 import { Module } from '@nestjs/common';
+import { DatabaseModule } from 'libs/database.module';
+import { AccountModule } from './account/account.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { CommentModule } from './comment/comment.module';
+import { ImageModule } from './image/image.module';
+import { OrderModule } from './order/order.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
-  imports: [],
+  imports: [
+    DatabaseModule,
+    AccountModule,
+    AuthenticationModule,
+    OrderModule,
+    ProductModule,
+    ImageModule,
+    CommentModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

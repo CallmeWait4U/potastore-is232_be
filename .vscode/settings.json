@@ -12,5 +12,9 @@
     },
     "[prisma]": {
       "editor.defaultFormatter": "Prisma.prisma"
-    }
+    },
+    "python.analysis.extraPaths": [
+      "./src/py",
+      "./src/py"
+    ]
 }

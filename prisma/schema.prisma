@@ -10,118 +10,140 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ShopOwner {
-  id          String   @id @default(uuid())
-  username    String   @unique
+model Account {
+  id          String     @id @default(uuid())
+  username    String     @unique
   password    String
+  code        String
+  role        String
+  accessToken String?
+  shopOwner   ShopOwner? @relation(fields: [shopOwnerId], references: [id], onDelete: Cascade)
+  shopOwnerId String?
+  customer    Customer?  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId  String?
+}
+
+model ShopOwner {
+  id          String    @id @default(uuid())
   name        String
   email       String
   phoneNumber String
-  cccd        String   @unique
+  address     String
   dayOfBirth  DateTime
   avatar      String
   gender      String
   shop        Shop[]
-  Bill        Bill[]
+  orders      Order[]
+  account     Account[]
 }
 
 model Shop {
   id          String    @id @default(uuid())
-  stt         Int
   name        String
+  address     String
+  phoneNumber String
   shopOwner   ShopOwner @relation(fields: [shopOwnerId], references: [id])
   shopOwnerId String
   products    Product[]
 }
 
 model Product {
-  id           String        @id @default(uuid())
-  name         String
-  description  String
-  price        Int
-  createdDate  DateTime
-  editedDate   DateTime
-  image        String
-  quantity     Int
-  shop         Shop          @relation(fields: [shopId], references: [id], onUpdate: NoAction)
-  shopId       String
-  comments     Comment[]
-  productCarts productCart[]
-  productBills productBill[]
+  id            String         @id @default(uuid())
+  name          String
+  code          String
+  description   String
+  price         Int
+  createdDate   DateTime
+  editedDate    DateTime?
+  image         String?
+  quantity      Int
+  unit          String
+  shop          Shop?          @relation(fields: [shopId], references: [id], onUpdate: NoAction)
+  shopId        String?
+  comments      Comment[]
+  productCarts  ProductCart[]
+  productOrders ProductOrder[]
+  category      Category?      @relation(fields: [categoryId], references: [id])
+  categoryId    String?
 }
 
 model Customer {
   id          String    @id @default(uuid())
-  username    String    @unique
-  password    String
   name        String
   email       String
   phoneNumber String
-  cccd        String    @unique
+  address     String
   dayOfBirth  DateTime
   avatar      String
   gender      String
   comments    Comment[]
   cart        Cart[]
-  bills       Bill[]
+  orders      Order[]
+  account     Account[]
 }
 
 model Cart {
-  id         String        @id @default(uuid())
-  customer   Customer      @relation(fields: [customerId], references: [id])
-  products   productCart[]
-  customerId String
+  id           String        @id @default(uuid())
+  total        Int
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  customerId   String
+  productCarts ProductCart[]
 }
 
 model Comment {
   id         String    @id @default(uuid())
-  content    String
-  image      String
-  video      String
-  vote       Int
+  content    String?
+  rating     Int
   product    Product?  @relation(fields: [productId], references: [id])
   productId  String?
   customer   Customer? @relation(fields: [customerId], references: [id])
   customerId String?
 }
 
-model Bill {
-  id                String          @id @default(uuid())
-  billCode          String
+model Order {
+  id                String           @id @default(uuid())
+  orderCode         String
   createdDate       DateTime
-  paymentMethod     String
+  paymentMethod     String?
+  status            String
   total             Int
-  customer          Customer        @relation(fields: [customerId], references: [id])
+  customer          Customer         @relation(fields: [customerId], references: [id])
   customerId        String
-  productBill       productBill[]
-  shippingService   ShippingService @relation(fields: [shippingServiceId], references: [id])
-  shippingServiceId String
-  shopOwner         ShopOwner?      @relation(fields: [shopOwnerId], references: [id], onUpdate: NoAction)
+  productOrders     ProductOrder[]
+  shippingService   ShippingService? @relation(fields: [shippingServiceId], references: [id])
+  shippingServiceId String?
+  shopOwner         ShopOwner?       @relation(fields: [shopOwnerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   shopOwnerId       String?
 }
 
 model ShippingService {
-  id     String @id @default(uuid())
+  id     String  @id @default(uuid())
   name   String
   fee    Int
   status String
-  bills  Bill[]
+  orders Order[]
 }
 
-model productCart {
+model ProductCart {
   id        String  @id @default(uuid())
-  product   Product @relation(fields: [productId], references: [id])
   quantity  Int
+  product   Product @relation(fields: [productId], references: [id])
   productId String
-  cart      Cart?   @relation(fields: [cartId], references: [id])
+  cart      Cart?   @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String?
 }
 
-model productBill {
+model ProductOrder {
   id        String  @id @default(uuid())
-  product   Product @relation(fields: [productId], references: [id])
   quantity  Int
+  product   Product @relation(fields: [productId], references: [id])
   productId String
-  bill      Bill?   @relation(fields: [billId], references: [id])
-  billId    String?
+  order     Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String?
+}
+
+model Category {
+  id      String    @id @default(uuid())
+  name    String
+  product Product[]
 }

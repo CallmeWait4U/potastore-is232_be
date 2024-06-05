@@ -19,31 +19,33 @@ export class AccountService {
     const accountId = uuidv4().toString();
     const userId = uuidv4().toString();
     const salt = await bcrypt.genSalt();
-    if (account.role === 'Admin') {
+    if (account.role !== 'Customer') {
+      const { role, ...dataOwner } = account;
       await this.prisma.account.create({
         data: {
           id: accountId,
           username: account.email,
           password: await bcrypt.hash('123465', salt),
-          role: 'Admin',
+          role: role,
           code: faker.string.numeric(5),
           shopOwner: {
-            create: { ...account, id: userId },
+            create: { ...dataOwner, id: userId },
           },
         },
       });
     } else {
       const cartId = uuidv4().toString();
+      const { role, ...dataCus } = account;
       await this.prisma.account.create({
         data: {
           id: accountId,
           username: account.email,
           password: await bcrypt.hash('123465', salt),
-          role: 'Customer',
+          role: role,
           code: faker.string.numeric(5),
           customer: {
             create: {
-              ...account,
+              ...dataCus,
               id: userId,
               cart: { create: { id: cartId, total: 0 } },
             },

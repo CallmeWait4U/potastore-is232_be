@@ -8,6 +8,7 @@ import { CommentModule } from './comment/comment.module';
 import { ImageModule } from './image/image.module';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
+import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductModule } from './product/product.module';
     ProductModule,
     ImageModule,
     CommentModule,
+    TestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -84,12 +84,13 @@ export class ProductService {
 
   async create(product: CreateProductDTO) {
     const productId = uuidv4().toString();
+    const { typeId, ...dataProduct } = product;
     await this.prisma.product.create({
       data: {
-        ...product,
+        ...dataProduct,
         id: productId,
         createdDate: new Date(),
-        category: { connect: { id: product.typeId } },
+        category: { connect: { id: typeId } },
       },
     });
   }

@@ -37,7 +37,10 @@ export class CreateAccountDTO {
   @IsString()
   gender: string;
 
-  @ApiProperty({ enum: ['Admin', 'Customer'], type: String })
+  @ApiProperty({
+    enum: ['ShopOwner', 'Customer', 'DataScientist'],
+    type: String,
+  })
   @IsNotEmpty()
   @IsString()
   role: string;

@@ -98,7 +98,7 @@ export class ProductService {
   async update(product: UpdateProductDTO) {
     await this.prisma.product.update({
       where: { id: product.id },
-      data: { ...product, category: { connect: { id: product.typeId } } },
+      data: { ...product },
     });
   }
 

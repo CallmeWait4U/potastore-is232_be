@@ -7,7 +7,7 @@ export class SignInDTO {
   @IsString()
   username: string;
 
-  @ApiProperty({ example: '123456', type: String })
+  @ApiProperty({ example: '123465', type: String })
   @IsNotEmpty()
   @IsString()
   password: string;

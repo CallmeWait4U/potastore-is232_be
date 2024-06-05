@@ -172,7 +172,7 @@ export class AccountService {
       include: { customer: true, shopOwner: true },
     });
     const filter =
-      account.role === 'Admin' ? account.shopOwner : account.customer;
+      account.role !== 'Customer' ? account.shopOwner : account.customer;
     return plainToClass(
       GetAccountDetailResult,
       { ...account, ...filter },

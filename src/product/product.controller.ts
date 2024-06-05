@@ -5,7 +5,7 @@ import {
   Get,
   Post,
   Put,
-  Query
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateProductDTO } from './dto/create.product.dto';

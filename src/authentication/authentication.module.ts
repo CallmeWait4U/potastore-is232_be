@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
+import { AccessTokenStrategy } from './jwt/accessToken.strategy';
 import { jwtConfig } from './jwt/jwt.config';
 
 @Module({
@@ -12,7 +13,7 @@ import { jwtConfig } from './jwt/jwt.config';
       signOptions: { expiresIn: jwtConfig.expiresIn.access },
     }),
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, AccessTokenStrategy],
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {}

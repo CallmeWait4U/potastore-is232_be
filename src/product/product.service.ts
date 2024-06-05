@@ -15,7 +15,7 @@ export class ProductService {
   private readonly prisma: PrismaService;
 
   async getProductList(take: number, skip: number, categoryId?: string) {
-    const condition = categoryId ? [] : [{ categoryId }];
+    const condition = categoryId ? [{ categoryId }] : [];
     const [data, total] = await Promise.all([
       this.prisma.product.findMany({
         take: Number(take),
@@ -47,7 +47,7 @@ export class ProductService {
         conditions.push({ categoryId: item });
       }
       if (prop === 'price') {
-        conditions.push({ price: item });
+        conditions.push({ price: Number(item) });
       }
       if (prop === 'unit') {
         conditions.push({ unit: item });
@@ -62,7 +62,7 @@ export class ProductService {
         let ratingAvg = 0;
         i.comments.map((comment) => (ratingAvg = ratingAvg + comment.rating));
         ratingAvg = ratingAvg / i.comments.length;
-        plainToClass(
+        return plainToClass(
           GetProductListForCustomerResult,
           { ...i, ratingAvg },
           { excludeExtraneousValues: true },

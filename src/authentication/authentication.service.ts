@@ -27,10 +27,14 @@ export class AuthenticationService {
     const userParam: User = plainToClass(User, account, {
       excludeExtraneousValues: true,
     });
-    const accessToken = await this.jwtService.signAsync(userParam, {
-      secret: jwtConfig.access,
-      expiresIn: jwtConfig.expiresIn.access,
-    });
+    console.log(userParam);
+    const accessToken = await this.jwtService.signAsync(
+      { ...userParam },
+      {
+        secret: jwtConfig.access,
+        expiresIn: jwtConfig.expiresIn.access,
+      },
+    );
     await this.prisma.account.update({
       where: { id: account.id },
       data: { accessToken },

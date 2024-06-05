@@ -71,11 +71,11 @@ model Customer {
   id          String    @id @default(uuid())
   name        String
   email       String
-  phoneNumber String
-  address     String
-  dayOfBirth  DateTime
-  avatar      String
-  gender      String
+  phoneNumber String?
+  address     String?
+  dayOfBirth  DateTime?
+  avatar      String?
+  gender      String?
   comments    Comment[]
   cart        Cart[]
   orders      Order[]
@@ -146,4 +146,11 @@ model Category {
   id      String    @id @default(uuid())
   name    String
   product Product[]
+}
+
+model PredictionResult {
+  id         String   @id @default(uuid())
+  image      String
+  result     String
+  dateUpload DateTime
 }

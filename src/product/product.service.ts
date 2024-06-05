@@ -18,8 +18,8 @@ export class ProductService {
     const condition = categoryId ? [{ categoryId }] : [];
     const [data, total] = await Promise.all([
       this.prisma.product.findMany({
-        take: Number(take),
-        skip: Number(skip),
+        // take: Number(take),
+        // skip: Number(skip),
         where: { AND: condition },
         include: { category: true },
       }),

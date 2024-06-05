@@ -26,8 +26,10 @@ export class ProductController {
   @Get('')
   async getProductList(@Query() query: GetProductListDTO) {
     return await this.productService.getProductList(
-      query.take,
-      query.skip,
+      // query.take,
+      // query.skip,
+      0,
+      0,
       query.categoryId,
     );
   }

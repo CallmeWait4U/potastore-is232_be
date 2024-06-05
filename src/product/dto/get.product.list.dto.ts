@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class GetProductListDTO {
-  @ApiProperty({ example: 10, type: Number })
-  @IsNotEmpty()
+  // @ApiProperty({ example: 10, type: Number })
+  // @IsNotEmpty()
   // @IsNumber()
-  take: number;
+  // take: number;
 
-  @ApiProperty({ example: 0, type: Number })
-  @IsNotEmpty()
+  // @ApiProperty({ example: 0, type: Number })
+  // @IsNotEmpty()
   // @IsNumber()
-  skip: number;
+  // skip: number;
 
   @ApiProperty({ example: 'categoryId', type: String })
   @IsOptional()

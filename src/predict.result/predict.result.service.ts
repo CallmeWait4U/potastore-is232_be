@@ -12,8 +12,8 @@ export class PredictResultService {
   async getPredictResultForDataScientist(take: number, skip: number) {
     const [data, total] = await Promise.all([
       this.prisma.predictionResult.findMany({
-        take: Number(take),
-        skip: Number(skip),
+        // take: Number(take),
+        // skip: Number(skip),
       }),
       this.prisma.predictionResult.count(),
     ]);

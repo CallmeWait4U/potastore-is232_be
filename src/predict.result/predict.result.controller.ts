@@ -16,8 +16,10 @@ export class PredictResultController {
     @Query() query: GetPredictResultForDataScientist,
   ) {
     return await this.predictResultService.getPredictResultForDataScientist(
-      query.take,
-      query.skip,
+      0,
+      0,
+      // query.take,
+      // query.skip,
     );
   }
 }

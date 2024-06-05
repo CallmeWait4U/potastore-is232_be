@@ -77,16 +77,31 @@ export class OrderService {
         productId: product.productId,
       };
     });
-    await this.prisma.order.create({
-      data: {
-        ...dataOrder,
-        id: orderId,
-        createdDate: new Date(),
-        status: StatusOrder.NOTDELIVER,
-        customer: { connect: { id: order.customerId } },
-        productOrders: { createMany: { data: productOrders } },
-      },
+    const account = await this.prisma.account.findUnique({
+      where: { id: order.customerId },
     });
+    if (account.role === 'Customer') {
+      await this.prisma.order.create({
+        data: {
+          ...dataOrder,
+          id: orderId,
+          createdDate: new Date(),
+          status: StatusOrder.NOTDELIVER,
+          customer: { connect: { id: account.customerId } },
+          productOrders: { createMany: { data: productOrders } },
+        },
+      });
+    } else {
+      await this.prisma.order.create({
+        data: {
+          ...dataOrder,
+          id: orderId,
+          createdDate: new Date(),
+          status: StatusOrder.NOTDELIVER,
+          productOrders: { createMany: { data: productOrders } },
+        },
+      });
+    }
   }
 
   async update(id: string, status: StatusOrder) {

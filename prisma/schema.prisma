@@ -107,8 +107,8 @@ model Order {
   paymentMethod     String?
   status            String
   total             Int
-  customer          Customer         @relation(fields: [customerId], references: [id])
-  customerId        String
+  customer          Customer?        @relation(fields: [customerId], references: [id])
+  customerId        String?
   productOrders     ProductOrder[]
   shippingService   ShippingService? @relation(fields: [shippingServiceId], references: [id])
   shippingServiceId String?

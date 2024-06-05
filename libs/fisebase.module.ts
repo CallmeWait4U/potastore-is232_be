@@ -8,7 +8,7 @@ export class FirebaseService {
   constructor() {
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      storageBucket: 'gs://ccs-storage.appspot.com',
+      storageBucket: 'gs://potastore-f2e3e.appspot.com',
     });
     this.storage = admin.storage();
   }
@@ -23,6 +23,7 @@ export class FirebaseService {
     const stream = fileUpload.createWriteStream({
       metadata: {
         contentType: file.mimetype,
+        contentLength: file.size,
       },
     });
 

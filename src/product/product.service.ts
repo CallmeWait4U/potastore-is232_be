@@ -23,7 +23,7 @@ export class ProductService {
         where: { AND: condition },
         include: { category: true },
       }),
-      this.prisma.product.count(),
+      this.prisma.product.count({ where: { AND: condition } }),
     ]);
     return {
       items: data.map((i) =>

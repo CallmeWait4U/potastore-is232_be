@@ -75,7 +75,6 @@ export class OrderService {
         id: productOrderId,
         quantity: product.quantity,
         productId: product.productId,
-        product: { connect: { id: product.productId } },
       };
     });
     await this.prisma.order.create({

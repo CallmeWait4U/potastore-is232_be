@@ -106,9 +106,10 @@ export class AccountService {
           }),
         ]);
       } else {
+        const { id, role, ...dataCustomer } = account;
         await this.prisma.account.update({
-          where: { id: account.id },
-          data: { ...account, customer: { update: account } },
+          where: { id },
+          data: { role, customer: { update: dataCustomer } },
         });
       }
     }

@@ -160,7 +160,7 @@ export class AccountService {
     ]);
     return {
       items: data.map((i) => {
-        const filter = i.role === 'Admin' ? i.shopOwner : i.customer;
+        const filter = i.role !== 'Customer' ? i.shopOwner : i.customer;
         return plainToClass(GetAccountListResult, { ...filter, ...i });
       }),
       total,

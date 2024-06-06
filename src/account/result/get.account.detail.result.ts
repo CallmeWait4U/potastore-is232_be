@@ -5,6 +5,9 @@ export class GetAccountDetailResult {
   id: string;
 
   @Expose()
+  role: string;
+
+  @Expose()
   name: string;
 
   @Expose()
